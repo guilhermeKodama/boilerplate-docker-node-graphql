@@ -1,0 +1,118 @@
+########## POSTGRES ##########
+apiVersion: v1
+kind: Service
+metadata:
+  name: db
+  labels:
+    env: production
+spec:
+  selector:
+    app: db
+  ports:
+  - port: 5432
+    targetPort: 5432
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: db
+  labels:
+    env: production
+    app: db
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        env: production
+        app: db
+    spec:
+      containers:
+      - name: db
+        image: postgres
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        ports:
+        - containerPort: 5432
+        env:
+        - name: POSTGRES_PASSWORD
+          value: o5MU9UhWaHNUXfrMqU~Ho
+        - name: POSTGRES_USER
+          value: postgres
+        - name: POSTGRES_DB
+          value: boilerplate
+---
+####### BACKEND ########
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  labels:
+    env: production
+spec:
+  selector:
+    app: backend
+  type: NodePort #LoadBalancer
+  ports:
+  - port: 80
+  type: LoadBalancer
+---
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: backend
+  labels:
+    env: production
+    app: backend
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        env: production
+        app: backend
+    spec:
+      containers:
+      - name: closetinn-backend
+        image: gcr.io/boilerplate-nodejs-240820/boilerplate-api-image:latest
+        env:
+          - name: NODE_ENV
+            value: production
+          - name: DB_ENGINE
+            value: postgres
+          - name: DB_HOST
+            value: db
+          - name: DB_USER
+            value: postgres
+          - name: DB_PORT
+            value: "5432"
+          - name: DB_PASSWORD
+            value: o5MU9UhWaHNUXfrMqU~Ho
+          - name: DB_DATABASE
+            value: boilerplate
+          - name: DB_POOL_MIN
+            value: "2"
+          - name: DB_POOL_MAX
+            value: "10"
+          - name: PORT
+            value: "80"
+          - name: SESSION_SECRET
+            value: O7LlCRtK9DjwoTmNRRbWn
+          - name: HEALTH_CHECK_SECRET
+            value: a73R3SDSUvLEffTp_N6eq
+          - name: JWT_ALGORITHM
+            value: HS256
+          - name: JWT_SECRET
+            value: shhhhhhhhhh
+          - name: CRYPTO_KEY
+            value: 1a2579f08b05a03e1344be5228019be9
+          - name: CRYPTO_ALGORITHM
+            value: aes-256-gcm
+        resources:
+          requests:
+            cpu: 10m
+            memory: 100Mi
+        ports:
+        - containerPort: 80
