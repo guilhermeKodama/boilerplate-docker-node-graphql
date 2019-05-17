@@ -338,7 +338,7 @@ Check logs here: `https://console.cloud.google.com/logs/viewer`
 
 ## Continuous Deployment
 
-Check `/api/cloudbuild.yaml` to see the deployment process in kubectl
+Check `cloudbuild.yaml` to see the deployment process in kubectl
 
 Setup a build trigger on GC doc (https://cloud.google.com/cloud-build/docs/running-builds/automate-builds)
 
