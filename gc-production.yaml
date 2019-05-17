@@ -75,7 +75,7 @@ spec:
         app: backend
     spec:
       containers:
-      - name: closetinn-backend
+      - name: backend
         image: gcr.io/boilerplate-nodejs-240820/boilerplate-api-image:latest
         env:
           - name: NODE_ENV
