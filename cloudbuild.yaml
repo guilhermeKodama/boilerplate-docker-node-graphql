@@ -1,6 +1,7 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: [ 'build', '-t', 'gcr.io/boilerplate-nodejs-240820/boilerplate-api-image', '.' ]
+  dir: 'api/'
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/boilerplate-nodejs-240820/boilerplate-api-image']
 - name: 'gcr.io/cloud-builders/kubectl'
