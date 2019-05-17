@@ -285,3 +285,64 @@ PRs. For example, if you merge a **rebased** PR to `development`, the fast path
 is used.
 
 Implementation is in `docker/fast_track` script.
+
+# Deployment Google Cloud
+
+Set a env variable to store you project id
+```
+PROJECT_ID=[YOUR_PROJECT_ID]
+```
+
+Define gcloud project you are working with
+```
+gcloud config set project $PROJECT_ID
+```
+
+Define your compute zone
+```
+# set env variable for zone
+COMPUTE_ZONE=southamerica-east1-a
+
+# set zone
+gcloud config set compute/zone $COMPUTE_ZONE
+```
+
+Create cluster
+```
+# set cluster name
+CLUSTER_NAME=boilerplate-cluster
+
+# create cluster (enable Kubernetes Engine API if necessary)
+gcloud container clusters create $CLUSTER_NAME --machine-type=n1-standard-1 --num-nodes=1
+```
+Get cluster auth credentials
+```
+gcloud container clusters get-credentials $CLUSTER_NAME
+```
+
+## Kubernetes manual commands
+
+Create services
+```
+kubectl create -f gc-production.yaml
+```
+
+Delete services
+```
+kubectl delete deployments,services --selector=env=production
+```
+
+## Logs
+
+Check logs here: `https://console.cloud.google.com/logs/viewer`
+
+## Continuous Deployment
+
+Check `/api/cloudbuild.yaml` to see the deployment process in kubectl
+
+Setup a build trigger on GC doc (https://cloud.google.com/cloud-build/docs/running-builds/automate-builds)
+
+Test build script with
+```
+gcloud builds submit --config cloudbuild.yaml .
+```

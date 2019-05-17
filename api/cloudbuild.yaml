@@ -1,0 +1,11 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/boilerplate-nodejs-240820/boilerplate-api-image', '.' ]
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/boilerplate-nodejs-240820/boilerplate-api-image']
+- name: 'gcr.io/cloud-builders/kubectl'
+  args: ['set', 'image', 'deployments/backend', 'backend=gcr.io/boilerplate-nodejs-240820/boilerplate-api-image:latest']
+  env:
+  - 'CLOUDSDK_COMPUTE_ZONE=southamerica-east1-a'
+  - 'CLOUDSDK_CONTAINER_CLUSTER=boilerplate-cluster'
+images: ['gcr.io/boilerplate-nodejs-240820/boilerplate-api-image']
