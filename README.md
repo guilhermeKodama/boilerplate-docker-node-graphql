@@ -346,3 +346,5 @@ Test build script with
 ```
 gcloud builds submit --config cloudbuild.yaml .
 ```
+
+Enable kubectl permissions here (https://cloud.google.com/cloud-build/docs/securing-builds/set-service-account-permissions)
