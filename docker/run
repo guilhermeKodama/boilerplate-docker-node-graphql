@@ -9,8 +9,8 @@ CONFIG_FILE=docker-compose.yml
 
 CACHE_INIT=false
 
-SERVICES=(api)
-SERVICES_DIR=(api)
+SERVICES=(api frontend)
+SERVICES_DIR=(api frontend)
 
 BUILD_CMD="docker-compose -f $CONFIG_FILE build"
 UP_CMD="docker-compose -f $CONFIG_FILE up"
