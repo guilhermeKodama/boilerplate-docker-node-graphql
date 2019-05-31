@@ -1,6 +1,10 @@
+scalar Date
+
 type User {
   id: ID!,
   email: String!,
+  role: String,
+  createdAt: Date,
   token: String
 }
 

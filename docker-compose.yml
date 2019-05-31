@@ -16,16 +16,16 @@ services:
     volumes:
       - ./api/.:/opt/app
       - /opt/app/node_modules
-  # frontend:
-  #   build: frontend/.
-  #   command: npm start
-  #   ports:
-  #     - "0.0.0.0:3000:3000"
-  #     - "0.0.0.0:3001:3001"
-  #     - "0.0.0.0:3002:3002"
-  #   volumes:
-  #     - ./frontend/.:/opt/app
-  #     - /opt/app/node_modules
+  frontend:
+    build: frontend/.
+    command: npm start
+    ports:
+      - "0.0.0.0:3000:3000"
+      - "0.0.0.0:3001:3001"
+      - "0.0.0.0:3002:3002"
+    volumes:
+      - ./frontend/.:/opt/app
+      - /opt/app/node_modules
   db:
     image: postgres
     restart: always
