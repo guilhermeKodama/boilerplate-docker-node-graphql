@@ -13,6 +13,8 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import Container from '@material-ui/core/Container'
 
+import Snackbar from '../../components/Snackbar'
+
 import gql from 'graphql-tag'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -36,12 +38,18 @@ class SignIn extends Component {
     password: ''
   }
 
-  submit = (e, login) => {
+  handleChange = (e, name) => {
+    const data = {}
+    data[name] = e.target.value
+    this.setState(data)
+  }
+
+  submit = (e, login, email, password) => {
     e.preventDefault()
     login({
       variables: {
-        email: 'admin@clevertech.biz',
-        password: 'admin'
+        email,
+        password
       }
     })
   }
@@ -69,8 +77,8 @@ class SignIn extends Component {
               this.props.history.push('/dashboard')
             }}
           >
-            {(login, { data }) => (
-              <form className={classes.form} onSubmit={e => this.submit(e, login)} noValidate>
+            {(login, { error, data }) => (
+              <form className={classes.form} onSubmit={e => this.submit(e, login, email, password)} noValidate>
                 <TextField
                   variant="outlined"
                   margin="normal"
@@ -81,6 +89,8 @@ class SignIn extends Component {
                   name="email"
                   autoComplete="email"
                   autoFocus
+                  value={email}
+                  onChange={e => this.handleChange(e, 'email')}
                 />
                 <TextField
                   variant="outlined"
@@ -92,6 +102,8 @@ class SignIn extends Component {
                   type="password"
                   id="password"
                   autoComplete="current-password"
+                  value={password}
+                  onChange={e => this.handleChange(e, 'password')}
                 />
                 <FormControlLabel
                   control={<Checkbox value="remember" color="primary" />}
@@ -118,6 +130,13 @@ class SignIn extends Component {
                     </Link>
                   </Grid>
                 </Grid>
+                { error && <Snackbar
+                  open={true}
+                  message={'email or password incorrect!'}
+                  variant={'error'}
+                  closeSnackbar={() => {}}
+                  />
+                }
               </form>
             )}
           </Mutation>
@@ -125,7 +144,7 @@ class SignIn extends Component {
         <Box mt={5}>
           <Typography variant="body2" color="textSecondary" align="center">
             {'Built with love by the '}
-            <Link color="inherit" href="https://material-ui.com/">
+            <Link color="inherit" href="https://www.clevertech.biz/">
               CleverTech
             </Link>
             {' team.'}

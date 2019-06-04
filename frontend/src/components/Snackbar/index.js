@@ -25,15 +25,18 @@ const variantIcon = {
 };
 
 class SnackbarCustom extends Component {
+  state = {
+    open: true
+  }
 
   closeSnackbar = () => {
     const { closeSnackbar } = this.props
-    closeSnackbar()
+    // closeSnackbar()
   }
 
   clearSnackbar = () => {
     const { clearSnackbar } = this.props
-    clearSnackbar()
+    // clearSnackbar()
   }
 
   /**
@@ -41,17 +44,19 @@ class SnackbarCustom extends Component {
    */
 
    handleClose = e => {
-     this.closeSnackbar()
+     // this.closeSnackbar()
+     this.setState({ open: false })
    }
 
    handleExited = e => {
-     this.clearSnackbar()
+     // this.clearSnackbar()
    }
 
    handleUndo = e => {}
 
   render() {
-    const { classes, open, variant, message, onUndo } = this.props,
+    const { open } = this.state
+    const { classes, variant, message, onUndo } = this.props,
           Icon = variantIcon[variant]
 
     return (
