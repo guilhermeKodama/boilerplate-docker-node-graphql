@@ -27,12 +27,13 @@ export default {
 
       return context.user
     },
-    users: async(parent, args, context) => {
+    users: async(parent, { offset, limit }, context) => {
       if (!context.user) return new AuthenticationError('must authenticate')
       if (context.user.role !== 'admin') return new ForbiddenError('you must be an admin')
-      const users = await models.user.findAll()
+      const data = await models.user.findAll({ offset: offset || null, limit: limit || null })
+      const total = await models.user.count()
 
-      return users
+      return { data, total }
     },
     user: async(parent, { id }, context) => {
       if (!context.user) return new AuthenticationError('must authenticate')
