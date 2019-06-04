@@ -8,9 +8,14 @@ type User {
   token: String
 }
 
+type UserPaginated {
+  data: [User],
+  total: Int
+}
+
 type Query {
   me: User,
-  users: [User],
+  users(offset: Int, limit: Int): UserPaginated,
   user(id: ID!): User
 }
 

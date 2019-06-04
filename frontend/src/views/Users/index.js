@@ -13,11 +13,14 @@ import styles from './styles.js'
 import { withStyles } from '@material-ui/core/styles'
 
 const GET_USERS = gql`
-  {
-    users {
-      email
-      role
-      createdAt
+  query Users($offset: Int, $limit: Int) {
+    users(offset: $offset, limit: $limit) {
+      data {
+        email,
+        role,
+        createdAt
+      }
+      total
     }
   }
 `
@@ -31,6 +34,18 @@ class Users extends Component {
     ]
   }
 
+  addUser = () => {
+    console.log('ADD USER')
+  }
+
+  updateUser = () => {
+    console.log('UPDATE USER')
+  }
+
+  deleteUser = () => {
+    console.log('DELETE USER')
+  }
+
   render() {
     const { columns } = this.state
     const { classes } = this.props
@@ -40,12 +55,27 @@ class Users extends Component {
         {/* Chart */}
         <Grid item xs={12}>
           <Paper className={fixedHeightPaper}>
-            <Query query={GET_USERS}>
-              {({ loading, error, data }) => {
+            <Query
+              query={GET_USERS}
+              variables={{
+                offset: 0,
+                limit: 5
+              }}>
+              {({ loading, error, data, fetchMore }) => {
                 if (loading) return (<CircularProgress className={classes.progress} />)
-                // if (error) return `Error! ${error.message}`;
+                if (error) return `Error! ${error.message}`
 
-                return (<ManageTable columns={columns} data={data.users} />)
+                return (
+                  <ManageTable
+                    columns={columns}
+                    dataKey={'users'}
+                    data={data.users.data}
+                    fetchMore={fetchMore}
+                    addData={this.addUser}
+                    updateData={this.updateData}
+                    deleteData={this.deleteData}
+                  />
+                )
               }}
             </Query>
           </Paper>
