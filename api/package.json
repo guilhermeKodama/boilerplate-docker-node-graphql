@@ -54,7 +54,7 @@
     "connect-redis": "^3.3.2",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
-    "express": "^4.13.3",
+    "express": "^4.17.3",
     "express-session": "^1.15.6",
     "graphql": "^14.2.1",
     "helmet": "^3.9.0",
