@@ -58,7 +58,7 @@
     "express-session": "^1.15.6",
     "graphql": "^14.2.1",
     "helmet": "^3.9.0",
-    "jsonwebtoken": "^8.1.0",
+    "jsonwebtoken": "^9.0.0",
     "node-fetch": "^1.7.3",
     "pg": "^7.10.0",
     "pg-hstore": "^2.3.2",
